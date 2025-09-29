@@ -116,3 +116,19 @@ class TestBooksCollector:
         collector.add_book_in_favorites('Существующая книга')
         collector.delete_book_from_favorites('Несуществующая книга')
         assert 'Существующая книга' in collector.get_list_of_favorites_books()
+
+    def test_get_list_of_favorites_books_returns_correct_list(self, collector):
+        collector.add_new_book('Книга 1')
+        collector.add_new_book('Книга 2') 
+        collector.add_new_book('Книга 3')
+        
+        collector.add_book_in_favorites('Книга 1')
+        collector.add_book_in_favorites('Книга 3')
+        
+        favorites = collector.get_list_of_favorites_books()
+        
+        assert len(favorites) == 2
+        assert 'Книга 1' in favorites
+        assert 'Книга 3' in favorites
+        assert 'Книга 2' not in favorites
+        assert isinstance(favorites, list)
